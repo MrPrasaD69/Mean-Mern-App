@@ -13,11 +13,36 @@ function Dashboard() {
   return (
     <div className='container'>
         <h2>React Fetch Data</h2>
-        <ul>
+        {/* <ul>
         {data.map((item, i) => {
             return <li key={i}>Name: {item.first_name} {item.last_name}, Email: {item.email_id}</li>
         })}
-        </ul>
+        </ul> */}
+        <table className='table'>
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email ID</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {data.map((item, i)=>{
+                    return(
+                    <tr key={i}>
+                        <td>{item.first_name}</td>
+                        <td>{item.last_name}</td>
+                        <td>{item.email_id}</td>
+                        <td>
+                            <button className='btn btn-success'>Edit</button>
+                            <button className='btn btn-danger'>Edit</button>
+                        </td>
+                    </tr>
+                    )
+                })}
+            </tbody>
+        </table>
     </div>
   )
 }

@@ -12,8 +12,8 @@ function Navbar() {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div className="navbar-nav">
-                    <NavLink className="nav-link" to="/dashboard" activeClassName="active">DASHBOARD</NavLink>
-                    <NavLink className="nav-link" to="/register" activeClassName="active">Register</NavLink>
+                    <NavLink className="nav-link" to="/dashboard" activeclassname="active">DASHBOARD</NavLink>
+                    <NavLink className="nav-link" to="/register" activeclassname="active">Register</NavLink>
                     {/* <NavLink className="nav-link" to="#" activeClassName="active">Pricing</NavLink> */}
                 </div>
                 </div>
