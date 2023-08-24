@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useLocation} from 'react-router-dom';
 import '../App.css';
 
 function Register() {
@@ -43,21 +43,48 @@ const onSubmitHandler = async (event) => {
     }
 }
 
+//Update Operation Here
+const location = useLocation();
+const searchParams = new URLSearchParams(location.search);
+const id = searchParams.get('id');
+const[editData,setEditData] = useState({
+    first_name:'',
+    last_name: '',
+    email_id:''
+});
+
+useEffect(()=>{
+    if(id){
+        fetch(`http://localhost:4000/get-item?id=${id}`)
+        .then(response => response.json())
+        .then(result =>{
+            setEditData({
+                id:result.id,
+                first_name: result.first_name,
+                last_name: result.last_name,
+                email_id: result.email_id,
+            });
+        })
+        .catch(error=> console.error('Error::', error));
+    }
+},[id]);
+
   return (
     <div className='container'>
         <form onSubmit={onSubmitHandler} className="signup-form">
             <h1>Register</h1>
             <div className="form-group">
-                <input type="text" id="first_name" name="first_name" value={formData.first_name} onChange={handleChange} placeholder="First Name" required />
+                <input type="hidden" value={id? editData.id || '' : ''}/>
+                <input type="text" id="first_name" name="first_name" value={id ? editData.first_name || '' : formData.first_name} onChange={handleChange} placeholder="First Name" required />
             </div>
             <div className="form-group">
-            <input type="text" id="last_name" name="last_name" value={formData.last_name} onChange={handleChange} placeholder="Last Name" required />
+            <input type="text" id="last_name" name="last_name" value={id ? editData.last_name || '' : formData.last_name} onChange={handleChange} placeholder="Last Name" required />
             </div>
             <div className="form-group">
-            <input type="email" id="email_id" name="email_id" value={formData.email_id} onChange={handleChange} placeholder="Email" required />
+            <input type="email" id="email_id" name="email_id" value={id ? editData.email_id || '' : formData.email_id} onChange={handleChange} placeholder="Email" required />
                 
             </div>
-            <button type="submit">Sign Up</button>
+            <button type="submit">{id ? 'Update' : 'Register'}</button>
         </form>
         
     </div>
