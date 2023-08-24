@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import './Signup.css';
+// import './Signup.css';
 // import { useNavigate  } from 'react-router-dom';
 function Signup() {
     // const navigate = useNavigate();
@@ -7,7 +7,7 @@ function Signup() {
         first_name: '',
         last_name:'',
         email_id:''
-        });
+    });
 
     const handleChange = (event) => {
         const { name, value } = event.target;

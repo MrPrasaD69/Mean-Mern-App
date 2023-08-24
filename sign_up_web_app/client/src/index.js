@@ -5,11 +5,13 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Signup from './components/Signup';
 
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    {/* <App /> */}
-    <Signup/>
+    
+    <App />
+    {/* <Signup/> */}
   </React.StrictMode>
 );
 
