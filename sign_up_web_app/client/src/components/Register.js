@@ -44,30 +44,30 @@ const onSubmitHandler = async (event) => {
 }
 
 //Update Operation Here
-const location = useLocation();
-const searchParams = new URLSearchParams(location.search);
-const id = searchParams.get('id');
-const[editData,setEditData] = useState({
-    first_name:'',
-    last_name: '',
-    email_id:''
-});
+// const location = useLocation();
+// const searchParams = new URLSearchParams(location.search);
+// const id = searchParams.get('id');
+// const[editData,setEditData] = useState({
+//     first_name:'',
+//     last_name: '',
+//     email_id:''
+// });
 
-useEffect(()=>{
-    if(id){
-        fetch(`http://localhost:4000/get-item?id=${id}`)
-        .then(response => response.json())
-        .then(result =>{
-            setEditData({
-                id:result.id,
-                first_name: result.first_name,
-                last_name: result.last_name,
-                email_id: result.email_id,
-            });
-        })
-        .catch(error=> console.error('Error::', error));
-    }
-},[id]);
+// useEffect(()=>{
+//     if(id){
+//         fetch(`http://localhost:4000/get-item?id=${id}`)
+//         .then(response => response.json())
+//         .then(result =>{
+//             setEditData({
+//                 id:result.id,
+//                 first_name: result.first_name,
+//                 last_name: result.last_name,
+//                 email_id: result.email_id,
+//             });
+//         })
+//         .catch(error=> console.error('Error::', error));
+//     }
+// },[id]);
 
   return (
     <div className='container'>

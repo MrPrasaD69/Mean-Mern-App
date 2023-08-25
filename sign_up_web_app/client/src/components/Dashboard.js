@@ -11,8 +11,10 @@ function Dashboard() {
             .catch(error => console.error('Error:', error));
     }, []);
   return (
-    <div className='container'>
-        <h2>React Fetch Data</h2>
+    <>
+    <h2>React Fetch Data</h2>
+    <div className='container dashboard-container'>
+        
         {/* <ul>
         {data.map((item, i) => {
             return <li key={i}>Name: {item.first_name} {item.last_name}, Email: {item.email_id}</li>
@@ -38,7 +40,7 @@ function Dashboard() {
                         <td>{item.email_id}</td>
                         <td>
                             {/* <button className='btn btn-success'>Edit</button> */}
-                            <Link className='btn btn-success' to={`/register?id=${item.id}`}>Edit</Link>
+                            <Link className='btn btn-success' to={`/update?id=${item.id}`}>Edit</Link>
                             <Link className='btn btn-danger'>Delete</Link>
                         </td>
                     </tr>
@@ -47,6 +49,7 @@ function Dashboard() {
             </tbody>
         </table>
     </div>
+    </>
   )
 }
 
