@@ -2,9 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mysql = require('mysql');
+const multer = require('multer');
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+
+
 
 const conn = mysql.createConnection({
     host:'localhost',
@@ -94,6 +97,35 @@ app.delete('/delete-data',(req,res)=>{
         res.json({ status: 200, message: 'Data Deleted successfully' });
     });
 })
+
+// Set up multer storage
+const storage = multer.diskStorage({
+    destination: 'uploads/', // Specify the folder where files will be saved
+    filename: (req, file, cb) => {
+      cb(null, Date.now() + '-' + file.originalname);
+    },
+});
+const upload = multer({ storage });
+
+app.post('/upload',upload.single('file'),(req,res)=>{
+    if(!req.file){
+        return res.status(400).json({error: 'No File provided'});
+    }
+
+    const filePath = req.file.path;
+    const fileName = req.file.originalname;
+
+    const sql="INSERT INTO tbl_node_users(file_name) VALUES(?)";
+    const values = [fileName];
+
+    conn.query(sql, values, (err, result)=>{
+        if(err){
+            console.error("Error uploading file", err);
+            return res.status(500).json({error:"Error uploading File"});
+        }
+    })
+    res.json({message:'File Upload Successfully', filePath});
+});
 
 app.listen(4000, ()=>{
     console.log("Server Running on 4000");
