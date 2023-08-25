@@ -63,6 +63,10 @@ button:hover {
   }
 }
 
+.dashboard-container{
+  height: 600px;
+  overflow-y: scroll;
+}
 /* .data-box{
   overflow-y: scroll;
   height: 150px;
