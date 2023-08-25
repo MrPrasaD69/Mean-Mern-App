@@ -44,6 +44,57 @@ app.get('/get-data',(req,res)=>{
     });
 });
 
+app.get('/get-item',(req,res)=>{
+    const itemId = req.query.id;
+    if(!itemId){
+        return res.status(400).json({ error: 'Missing id parameter' });
+    }
+    const sql = `SELECT * FROM tbl_node_users WHERE id = ?`;
+    const query = conn.query(sql,[itemId], (err, result)=>{
+        if (err) {
+            return res.status(500).json({ error: 'Error fetching data' });
+        }
+        if (result.length === 0) {
+            return res.status(404).json({ error: 'Item not found' });
+        }
+        const item = result[0];
+        res.json(item);
+    })
+});
+
+app.post('/update-data',(req,res)=>{
+    const itemId = req.query.id;
+    if (!itemId) {
+        return res.status(400).json({ error: 'Missing id parameter' });
+    }
+    const newData = req.body;
+    if (!newData.first_name || !newData.last_name || !newData.email_id) {
+        return res.status(400).json({ error: 'Missing data fields' });
+    }
+    const sql = `UPDATE tbl_node_users SET ? WHERE id = ?`;
+    const query = conn.query(sql, [newData, itemId], (err, result) => {
+        if (err) {
+          return res.status(500).json({ error: 'Error updating data' });
+        }
+        res.json({ status: 200, message: 'Data updated successfully' });
+    });
+})
+
+app.delete('/delete-data',(req,res)=>{
+    const itemId = req.query.id;
+    // res.json({ status: 200, message: 'Data Deleted successfully' });
+    if (!itemId) {
+        return res.status(400).json({ error: 'Missing id parameter' });
+    }
+    const sql = `DELETE FROM tbl_node_users WHERE id = ?`;
+    const query = conn.query(sql, [itemId], (err, result) => {
+        if (err) {
+          return res.status(500).json({ error: 'Error deleting data' });
+        }
+        res.json({ status: 200, message: 'Data Deleted successfully' });
+    });
+})
+
 app.listen(4000, ()=>{
     console.log("Server Running on 4000");
 });
