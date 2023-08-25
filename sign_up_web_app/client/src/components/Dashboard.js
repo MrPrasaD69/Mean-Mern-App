@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 function Dashboard() {
+    const navigate = useNavigate();
     const [data, setData] = useState([]);
     const API = "http://localhost:4000/get-data";
     useEffect(() => {
@@ -10,6 +11,29 @@ function Dashboard() {
             .then(result => setData(result))
             .catch(error => console.error('Error:', error));
     }, []);
+
+    const handleDelete = async (id) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this item?");
+        if (confirmDelete) {
+            // alert(id);
+          try {
+            const response = await fetch(`http://localhost:4000/delete-data?id=${id}`, {
+              method: 'DELETE',
+            });
+      
+            const responseData = await response.json();
+            console.log(responseData);
+            // Update the adminData state to reflect the changes
+            // setAdminData(adminData.filter(item => item.id !== id));
+            alert("Data Deleted");
+            // navigate("/dashboard");
+            window.location.reload();
+          } catch (error) {
+            console.error('Error:', error);
+          }
+        }
+    };
+
   return (
     <>
     <h2>React Fetch Data</h2>
@@ -41,7 +65,7 @@ function Dashboard() {
                         <td>
                             {/* <button className='btn btn-success'>Edit</button> */}
                             <Link className='btn btn-success' to={`/update?id=${item.id}`}>Edit</Link>
-                            <Link className='btn btn-danger'>Delete</Link>
+                            <Link className='btn btn-danger' onClick={()=> handleDelete(item.id)} >Delete</Link>
                         </td>
                     </tr>
                     )
