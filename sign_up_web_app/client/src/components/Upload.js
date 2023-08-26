@@ -1,6 +1,8 @@
 import React,{useState} from 'react'
+import { useNavigate } from 'react-router-dom';
 
 function Upload() {
+    const navigate = useNavigate();
     const [selectedFile, setSelectedFile] = useState(null);
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
@@ -19,7 +21,8 @@ function Upload() {
     
             const responseData = await response.json();
             console.log(responseData);
-            window.location.reload();
+            // window.location.reload();
+            navigate("/dashboard");
         } catch (error) {
             console.error('Error:', error);
           }
