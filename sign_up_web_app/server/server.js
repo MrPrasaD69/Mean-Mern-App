@@ -103,14 +103,16 @@ app.delete('/delete-data',(req,res)=>{
     });
 })
 
+currentTime = Date.now();
+
 // Set up multer storage
 const storage = multer.diskStorage({
-    destination: 'uploads/', // Specify the folder where files will be saved
+    destination: 'public/uploads/', // Specify the folder where files will be saved
     filename: (req, file, cb) => {
         const fileExtension = file.mimetype.split('/')[1];
         const allowedExtensions = ['jpeg','jpg','png'];
         if(allowedExtensions.includes(fileExtension)){
-            cb(null, Date.now() + '-' + file.originalname);
+            cb(null, currentTime + file.originalname);
         }
         else{
             cb(new Error('Invalid File Type'));
@@ -119,8 +121,7 @@ const storage = multer.diskStorage({
     },
 });
 const upload = multer({ storage });
-// Serve static files from the 'uploads' directory
-// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 app.post('/upload',upload.single('file'),(req,res)=>{
     if(!req.file){
@@ -128,7 +129,7 @@ app.post('/upload',upload.single('file'),(req,res)=>{
     }
 
     const filePath = req.file.path;
-    const fileName = req.file.originalname;
+    const fileName = currentTime+req.file.originalname;
 
     const sql="INSERT INTO tbl_node_users(file_name) VALUES(?)";
     const values = [fileName];
