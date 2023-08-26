@@ -51,6 +51,7 @@ function Dashboard() {
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Email ID</th>
+                    <th>Image</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -62,6 +63,7 @@ function Dashboard() {
                         <td>{item.first_name}</td>
                         <td>{item.last_name}</td>
                         <td>{item.email_id}</td>
+                        <td>{item.file_name ? <img src={`http://localhost:4000/uploads/${item.file_name}`} width="50px" height="50px" /> : 'No Image'}</td>
                         <td>
                             {/* <button className='btn btn-success'>Edit</button> */}
                             <Link className='btn btn-success' to={`/update?id=${item.id}`}>Edit</Link>

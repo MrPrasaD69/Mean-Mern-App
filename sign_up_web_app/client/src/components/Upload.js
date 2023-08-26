@@ -19,7 +19,7 @@ function Upload() {
     
             const responseData = await response.json();
             console.log(responseData);
-            // You can handle success and error responses here
+            window.location.reload();
         } catch (error) {
             console.error('Error:', error);
           }
