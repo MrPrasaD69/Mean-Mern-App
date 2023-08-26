@@ -3,10 +3,11 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mysql = require('mysql');
 const multer = require('multer');
+const path = require('path');
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-
+app.use(express.static('public'));
 
 
 const conn = mysql.createConnection({
@@ -40,12 +41,14 @@ app.post('/store-data',(req,res)=>{
 });
 
 app.get('/get-data',(req,res)=>{
+    
     let sql = "SELECT * FROM tbl_node_users";
     let query = conn.query(sql,(err, results)=>{
         if(err) throw err;
         res.send(results);
     });
 });
+
 
 app.get('/get-item',(req,res)=>{
     const itemId = req.query.id;
@@ -61,7 +64,9 @@ app.get('/get-item',(req,res)=>{
             return res.status(404).json({ error: 'Item not found' });
         }
         const item = result[0];
+        
         res.json(item);
+        
     })
 });
 
@@ -102,10 +107,20 @@ app.delete('/delete-data',(req,res)=>{
 const storage = multer.diskStorage({
     destination: 'uploads/', // Specify the folder where files will be saved
     filename: (req, file, cb) => {
-      cb(null, Date.now() + '-' + file.originalname);
+        const fileExtension = file.mimetype.split('/')[1];
+        const allowedExtensions = ['jpeg','jpg','png'];
+        if(allowedExtensions.includes(fileExtension)){
+            cb(null, Date.now() + '-' + file.originalname);
+        }
+        else{
+            cb(new Error('Invalid File Type'));
+        }
+      
     },
 });
 const upload = multer({ storage });
+// Serve static files from the 'uploads' directory
+// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.post('/upload',upload.single('file'),(req,res)=>{
     if(!req.file){
@@ -126,6 +141,14 @@ app.post('/upload',upload.single('file'),(req,res)=>{
     })
     res.json({message:'File Upload Successfully', filePath});
 });
+
+// Define the static file path
+// app.use(express.static(__dirname+'/uploads'));
+// app.get('/get-images', function (req, res) {
+//   res.sendFile(__dirname + '/index.html');
+// // var file_path = __dirname;
+// // res.json(file_path);
+// })
 
 app.listen(4000, ()=>{
     console.log("Server Running on 4000");
