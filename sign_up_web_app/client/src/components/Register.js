@@ -27,16 +27,23 @@ const onSubmitHandler = async (event) => {
             },
             body: JSON.stringify(formData)
         });
-
         const responseData = await response.json();
-        console.log(responseData);
-        navigate("/dashboard");
-        alert("Data Submitted");
-        setFormData({
-            first_name:'',
-            last_name:'',
-            email_id:''
-        });
+        if(response.status===200){
+            console.log(responseData);
+            navigate("/dashboard");
+            alert("Data Submitted");
+            setFormData({
+                first_name:'',
+                last_name:'',
+                email_id:''
+            });
+        }
+        else if(response.status===400){
+            alert(responseData.error);
+        }
+        else{
+            alert("Error submitting data. Please try again.");
+        }
     } 
     catch (error) {
         console.error('Error:', error);
