@@ -26,18 +26,35 @@ app.get('/', (req, res) => {
     res.send('Welcome to my server');
 });
 
-app.post('/store-data',(req,res)=>{
+app.post('/store-data',async(req,res)=>{
     let data = {
         first_name:req.body.first_name,
         last_name:req.body.last_name,
         email_id:req.body.email_id,
 
     };
-    let sql = "INSERT INTO tbl_node_users SET ?";
-    let query = conn.query(sql, data, (err, results)=>{
-        if(err) throw err;
-        res.send(JSON.stringify({"status":200, "error":null}))
-    });
+    const checkExistingEmail = "SELECT COUNT(*) AS count FROM tbl_node_users WHERE email_id = ?";
+    const checkEmail = data.email_id;
+    conn.query(checkExistingEmail,checkEmail,(err,result)=>{
+        if(err){
+            console.error('Error checking email', err);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+        const emailCount = result[0].count;
+        if (emailCount > 0) {
+            return res.status(400).json({ error: 'Email already exists' });
+        }else{
+            let sql = "INSERT INTO tbl_node_users SET ?";
+            let query = conn.query(sql, data, (err, results) => {
+                if (err) throw err;
+                res.send(JSON.stringify({ "status": 200, "error": null }));
+            });
+        }
+
+    })
+    
+    
+    
 });
 
 app.get('/get-data',(req,res)=>{
