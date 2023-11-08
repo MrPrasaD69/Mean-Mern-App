@@ -60,7 +60,7 @@
                  {data.map((item, i)=>{
                      return(
                      <tr key={i}>
-                         <td>{item.id}</td>
+                         <td>{i+1}</td>
                          <td>{item.first_name}</td>
                          <td>{item.last_name}</td>
                          <td>{item.email_id}</td>
