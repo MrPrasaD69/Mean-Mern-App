@@ -31,7 +31,7 @@ const onSubmitHandler = async (event) => {
         if(response.status===200){
             console.log(responseData);
             navigate("/dashboard");
-            alert("Data Submitted");
+            
             setFormData({
                 first_name:'',
                 last_name:'',
@@ -39,7 +39,7 @@ const onSubmitHandler = async (event) => {
             });
         }
         else if(response.status===400){
-            alert(responseData.error);
+            // alert(responseData.error);
         }
         else{
             alert("Error submitting data. Please try again.");

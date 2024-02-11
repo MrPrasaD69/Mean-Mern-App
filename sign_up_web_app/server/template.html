@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Hello world!</title>
+</head>
+<style>
+    .container {
+        margin: auto;
+        width: 50%;
+        border: 3px solid rgb(103, 109, 103);
+        padding: 10px;
+        text-align: center;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: center;
+    }
+
+    .container div {
+        margin: 10px auto;
+        width: 50%;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <h1>{{title}}</h1>
+        <p>{{description}}</p>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each users}}
+                    <tr>
+                        <td>{{this.first_name}}</td>
+                        <td>{{this.email_id}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
