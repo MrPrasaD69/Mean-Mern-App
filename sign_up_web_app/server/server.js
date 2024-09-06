@@ -40,9 +40,6 @@ app.post("/login", async (req, res) => {
         email_id: req.body.email_id,
         password: req.body.password,
     }
-    // const hashedText = md5(`${data.email_id}|${data.password}`);
-    // res.json(hashedText);
-    
 
     const checkUser = "SELECT * FROM tbl_node_users WHERE email_id=? AND password=?";
     const checkEmail = data.email_id;
@@ -88,16 +85,7 @@ app.post("/export", async (req, res) => {
                 return res.status(500).json({ error: "Internal server error" });
             }
             const emailCount = result[0];
-            // res.json(result);
-            // if (emailCount) {
-            //     const csvWriter = createCsvWriter({
-            //         path:'exportedNodeUser.csv',
-            //         header:[
-            //             {id:''}
-            //         ]
-            //     });
-            //     return res.status(200).json({ status: 200, message: "User Found"});
-            // }
+            
         });
     }
     else {
@@ -149,67 +137,6 @@ app.post("/exportpdf", async (req, res)=>{
         const doc = new PDFDocument();
         const outputPath = 'public/ExportedNodeUser.pdf';
         if(resultCount){
-            // doc.pipe(fs.createWriteStream(outputPath));
-            // doc.fontSize(16).text('Node Users Data',{align:'center'});
-            // doc.moveDown();
-
-            // resultCount.forEach((row)=>{
-            //     doc.text(`Name: ${row.first_name} ${row.last_name}`);
-            //     doc.text(`Email: ${row.email_id}`);
-            //     doc.moveDown();
-            // })
-
-            // doc.end();
-            // const pdfStream = fs.createReadStream(outputPath);
-            // res.setHeader('Content-Type','application/pdf');
-            // res.setHeader('Content-Disposition','attachment; filename=ExportedNodeUser.pdf');
-            // pdfStream.pipe(res);
-
-
-            // let htmlContent = `<html>
-            // <head>
-            // <style>
-            //     table {
-            //     border-collapse: collapse;
-            //     width: 100%;
-            //     }
-            //     th, td {
-            //     border: 1px solid #dddddd;
-            //     text-align: left;
-            //     padding: 8px;
-            //     }
-            //     th {
-            //     background-color: #f2f2f2;
-            //     }
-            // </style>
-            // </head>
-            // <body>
-            //     <h2>Node Users Data</h2>
-            //     <table>
-            //         <tr>
-            //         <th>Name</th>
-            //         <th>Email</th>
-            //         </tr>
-            // </html>`;
-
-            // resultCount.forEach((row)=>{
-            //     htmlContent+=`<tr>`;
-            //     htmlContent+=`<td>${row.first_name} ${row.last_name}</td>`;
-            //     htmlContent+=`<td>${row.email_id}</td>`;
-            //     htmlContent+=`</tr>`;
-            // })
-            // htmlContent += `
-            //     </table>
-            //     </body>
-            //     </html>
-            // `;
-            // pdf.create(htmlContent).toStream((err, stream) =>{
-            //     if (err) return console.error(err);
-            //     res.setHeader('Content-Type', 'application/pdf');
-            //     res.setHeader('Content-Disposition', 'attachment; filename=ExportedNodeUser.pdf');
-            //     // Pipe the PDF stream to the response
-            //     stream.pipe(res);
-            // });
 
             var htmlTemplate = fs.readFileSync("template.html", "utf8");            
             var dynamicContent = {
@@ -288,12 +215,6 @@ app.post("/store-data", async (req, res) => {
                 if (err) throw err;
                 const emailTemplate = fs.readFileSync('emailTemplate.html','utf8');
                 
-                // const mailOptions = {
-                //     to:checkEmail,
-                //     subject: 'New User Registration',
-                //     text: 'Hello, '+data.first_name+' '+data.last_name+'. You have registered on our website.'
-                // }
-
                 const mailOptions= {
                     to:checkEmail,
                     subject: 'New User Registration',
